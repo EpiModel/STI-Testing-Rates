@@ -1,22 +1,26 @@
 
 library(rstan)
 library(ggplot2)
+library(tidyverse)
 
-setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test/")
+setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test/STI-Testing-Rates")
 
 # load data
 rm(list = ls())
 d <- readRDS("data/STI-Test_analysis.rda")
 
 
-# Test non-Bayes ----------------------------------------------------------
+
+# City only model ---------------------------------------------------------
+
+# non-Bayes approach
 
 mod <- glm(sti.trate.all ~ city2 - 1, data = d, family = poisson)
 summary(mod)
 round(cbind(exp(coef(mod))/2, exp(confint(mod))/2), 3)
 
 
-# test city model -----------------------------------------------------------
+# bayes no pool model (each city treated independently)
 
 dt <- dplyr::select(d, sti.trate.all, city2)
 dt <- dt[complete.cases(dt), ]
@@ -28,47 +32,97 @@ data <- list(y = dt$sti.trate.all,
              J = length(unique(dt$city2)))
 str(data)
 
-stanfit <- stan(file = "models/negbin-glm.city.stan",
+fit.city <- stan(file = "models/negbin-glm.city.stan",
                 data = data,
                 chains = 4,
                 cores = 4,
-                iter = 4000,
+                iter = 6000,
                 warmup = 1000,
                 control = list(adapt_delta = 0.8))
 
-print(stanfit)
-traceplot(stanfit, par = "a", alpha = 0.5)
+print(fit.city)
+traceplot(fit.city, par = "a[1]", alpha = 0.5)
 
-plot(stanfit, par = "a")
+plot(fit.city, par = "a")
 
 # summarize yearly rates
-df <- as.data.frame(stanfit, par = "a")
+df <- as.data.frame(fit.city, par = "a")
 colnames(df) <- levels(dt$city2)
 df <- exp(df)/2
-
 df <- select(df, -starts_with("zOther"))
-df <- df[, order(apply(df, 2, median))]
-
 dfg <- gather(df)
-dfg$key <- as.factor(dfg$key)
 head(dfg)
-
+table(dfg$key)
 
 ggplot(dfg, aes(key, value)) +
   geom_boxplot(fill = "steelblue2", outlier.alpha = 0, fatten = 0.75) +
-  scale_y_continuous(limits = c(0.7, 1.5)) +
+  scale_y_continuous(limits = c(0.5, 2.0)) +
   theme_bw()
 
 t(round(apply(df, 2, function(x) quantile(x, probs = c(0.5, 0.025, 0.975))), 2))
-t(round(apply(df, 2, function(x) quantile(x, probs = c(0.5, 0.25, 0.75))), 2))
 
+# estimates match empirical means
 mean(dt$sti.trate.all[dt$city2 == "Atlanta"])/2
 mean(dt$sti.trate.all[dt$city2 == "San Francisco"])/2
 mean(dt$sti.trate.all[dt$city2 == "Philadelphia"])/2
 
-ndf <- as.data.frame(stanfit)
-a <- rnbinom(1e5, mu = exp(ndf[, 1]), size = exp(ndf$phi_y))
-quantile(a, probs = c(0.5, 0.025, 0.975))
+# similar to non-bayes estimates
+round(cbind(exp(coef(mod))/2, exp(confint(mod))/2), 3)
+
+
+# city multi-level model
+
+fit.city2 <- stan(file = "models/negbin-glm.city.mlm.stan",
+                 data = data,
+                 chains = 4,
+                 cores = 4,
+                 iter = 6000,
+                 warmup = 1000,
+                 control = list(adapt_delta = 0.8))
+
+print(fit.city2)
+
+df2 <- as.data.frame(fit.city2, par = "a")
+colnames(df2) <- levels(dt$city2)
+df2 <- exp(df2)/2
+df2 <- select(df2, -starts_with("zOther"))
+dfg2 <- gather(df2)
+head(dfg2)
+table(dfg2$key)
+
+ggplot(dfg2, aes(key, value)) +
+  geom_boxplot(fill = "steelblue2", outlier.alpha = 0, fatten = 0.75) +
+  scale_y_continuous(limits = c(0.5, 2.0)) +
+  theme_bw()
+
+t(round(apply(df2, 2, function(x) quantile(x, probs = c(0.5, 0.025, 0.975))), 2))
+
+
+# city and division mlm
+
+dt <- dplyr::select(d, sti.trate.all, city, div)
+dt <- dt[complete.cases(dt), ]
+dim(dt)
+str(dt)
+
+data <- list(y = dt$sti.trate.all,
+             city = as.numeric(as.factor(dt$city)),
+             div = dt$div,
+             N = nrow(dt),
+             J = length(unique(dt$city)),
+             D = length(unique(dt$div)))
+str(data)
+
+fit.city3 <- stan(file = "models/negbin-glm.city.div.mlm.stan",
+                 data = data,
+                 chains = 4,
+                 cores = 4,
+                 iter = 6000,
+                 warmup = 1000,
+                 control = list(adapt_delta = 0.8),
+                 refresh = 100)
+
+print(fit.city3)
 
 
 
@@ -90,7 +144,6 @@ data <- list(y = dt$sti.trate.all,
              race_hisp = race.hisp,
              race_oth = race.oth,
              age = dt$age,
-             sqage = sqrt(dt$age),
              hiv = dt$hiv,
              pnum = dt$cuml.pnum,
              city = as.numeric(dt$city2),
@@ -225,3 +278,11 @@ t(round(apply(df.hiv0, 2, function(x) quantile(x, probs = c(0.5, 0.025, 0.975)))
 t(round(apply(df.hiv1, 2, function(x) quantile(x, probs = c(0.5, 0.025, 0.975))), 2))
 
 mean(dt$sti.trate.all[dt$city2 == "Houston" & dt$hiv == 1])/2
+
+
+
+## hold
+
+ndf <- as.data.frame(stanfit)
+a <- rnbinom(1e5, mu = exp(ndf[, 1]), size = exp(ndf$phi_y))
+quantile(a, probs = c(0.5, 0.025, 0.975))

@@ -2,12 +2,12 @@
 library(haven)
 library(tidyverse)
 
-setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test")
+setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test/STI-Testing-Rates")
 rm(list = ls())
 
 ## Read input data
 
-d <- readRDS("../../Data/Cleaned/ARTNet-clean.rda")
+d <- readRDS("../../../Data/Cleaned/ARTNet-clean.rda")
 
 names(d)
 nrow(d)
@@ -76,6 +76,9 @@ table(d$city2)
 
 d$city2 <- as.factor(d$city2)
 
+d$div <- d$DIVCODE
+table(d$div, useNA = "always")
+sum(table(d$div))
 
 
 # 2. Outcome Variables ----------------------------------------------------
@@ -187,7 +190,7 @@ d <- rename(d, stitestfreq = STITESTFREQ)
 
 # Output Dataset ----------------------------------------------------------
 
-dt <- select(d, hiv, race.cat, age, cuml.pnum, city2,
+dt <- select(d, hiv, race.cat, age, cuml.pnum, city2, city, div,
             sti.trate.all, sti.trate.symp, sti.trate.asymp,
             sti.never, sti.symp.never, sti.asymp.never,
             stireg, stitestfreq)

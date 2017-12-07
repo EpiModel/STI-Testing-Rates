@@ -6,8 +6,8 @@ data {
 }
 parameters {
   vector[J] a;              // county intercepts
-  // real mu_a;
-  // real<lower=0> sigma_a;    // dispersion parameters
+  real mu_a;
+  real<lower=0> sigma_a;    // dispersion parameters
   real<lower=0> phi_y;
 }
 model {
@@ -16,11 +16,11 @@ model {
     y_hat[i] = a[city[i]];
   }
 
-  // mu_a ~ cauchy(1, 5);
-  // sigma_a ~ cauchy(0, 2);
-  a ~ cauchy(1, 5);
-  phi_y ~ cauchy(0, 3);
+  mu_a ~ cauchy(0.75, 5);
+  sigma_a ~ normal(0.18, 0.1);
+  a ~ normal(1, 5);
+  phi_y ~ cauchy(1, 3);
 
-  // a ~ normal(mu_a, sigma_a);
+  a ~ normal(mu_a, sigma_a);
   y ~ neg_binomial_2_log(y_hat, phi_y);
 }
