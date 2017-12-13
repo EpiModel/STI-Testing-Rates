@@ -37,6 +37,8 @@ d$race[d$race.mult == 0 & d$RACED == 1] <- "nh/pi"
 d$race[d$race.mult == 0 & d$RACEE == 1] <- "white"
 d$race[d$race.mult == 0 & (d$RACEF == 1 | d$RACEG == 1 | d$RACEH == 1)] <- "other"
 
+table(d$race, d$hispan)
+
 d$race.min <- ifelse(d$race == "white", 0, 1)
 
 d$race.cat <- rep("other", nrow(d))
@@ -58,6 +60,7 @@ d <- rename(d, cuml.pnum = M_MP12OANUM2)
 table(d$cuml.pnum)
 sum(table(d$cuml.pnum))
 hist(d$cuml.pnum, breaks = 30)
+summary(d$cuml.pnum)
 
 
 ## city
@@ -69,9 +72,12 @@ sum(table(d$city))
 which(d$city == "Other")
 d$DIVCODE[which(d$city == "Other")]
 d$ZIPCODE[which(is.na(d$DIVCODE))]
+d$ZIPCODE2[which(is.na(d$DIVCODE))]
+
+sum(table(d$DIVCODE, useNA = "always"))
 
 d$city2 <- d$city
-d$city2[which(d$city == "Other")] <- paste("zOther", d$DIVCODE[which(d$city == "Other")], sep = ".")
+d$city2[which(d$city == "Other")] <- paste("zOther", d$DIVCODE[which(d$city == "Other")], sep = "")
 table(d$city2)
 
 d$city2 <- as.factor(d$city2)
