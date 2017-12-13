@@ -16,10 +16,10 @@ model {
 
   phi_y ~ cauchy(1, 3);
 
-  beta[1] ~ normal(0, 5);
-  beta[2] ~ normal(0, 5);
-  beta[3] ~ normal(0, 5);
-  beta[4] ~ normal(0, 5);
+  beta[1] ~ normal(0, 2);
+  beta[2] ~ normal(0, 2);
+  beta[3] ~ normal(0, 2);
+  beta[4] ~ normal(0, 2);
 
   y ~ neg_binomial_2_log(y_hat, phi_y);
 }

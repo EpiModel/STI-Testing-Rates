@@ -23,17 +23,17 @@ model {
                beta[4]*age[i] + beta[5]*pow(age[i], 2) + beta[6]*hiv[i] +  beta[7]*pnum[i];
   }
 
-  mu_a ~ cauchy(1.5, 2);
-  sigma_a ~ normal(0.15, 0.2);
-  a ~ normal(1.5, 2);
+  mu_a ~ cauchy(0, 5);
+  sigma_a ~ normal(0.4099506, 0.1);
+  a ~ cauchy(0, 5);
 
-  beta[1] ~ normal(0, 3);
-  beta[2] ~ normal(0, 3);
-  beta[3] ~ normal(0, 3);
-  beta[4] ~ normal(0, 3);
-  beta[5] ~ normal(0, 3);
-  beta[6] ~ normal(0, 3);
-  beta[7] ~ normal(0, 3);
+  beta[1] ~ normal(0, 2);
+  beta[2] ~ normal(0, 2);
+  beta[3] ~ normal(0, 2);
+  beta[4] ~ normal(0, 2);
+  beta[5] ~ normal(0, 2);
+  beta[6] ~ normal(0, 2);
+  beta[7] ~ normal(0, 2);
 
   a ~ normal(mu_a, sigma_a);
   y ~ bernoulli_logit(y_hat);

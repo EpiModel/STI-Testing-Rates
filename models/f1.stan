@@ -21,15 +21,15 @@ model {
     y_hat[i] = a[city[i]] + beta*hiv[i] + theta[city[i]]*hiv[i];
   }
 
-  mu_a ~ cauchy(0.75, 5);
-  sigma_a ~ normal(0.18, 0.1);
-  a ~ normal(1, 5);
+  mu_a ~ cauchy(0, 5);
+  sigma_a ~ normal(0.4099506, 0.05);
+  a ~ cauchy(0, 5);
 
   beta ~ normal(0, 2);
 
-  mu_theta ~ normal(0, 1);
-  sigma_theta ~ normal(0.18, 0.1);
-  theta ~ normal(0, 5);
+  mu_theta ~ normal(0, 2);
+  sigma_theta ~ normal(0, 1);
+  theta ~ normal(0, 2);
 
   phi_y ~ cauchy(1, 3);
 
