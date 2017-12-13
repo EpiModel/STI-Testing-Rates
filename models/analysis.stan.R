@@ -31,6 +31,34 @@ dt <- dplyr::select(d, "sti.trate.all", "race.cat", "age",
 dt <- dt[complete.cases(dt), ]
 dim(dt)
 
+g <- group_by(dt, city2)
+s <- summarise(g, m = mean(sti.trate.all))
+as.data.frame(s)
+sd(log(s$m)) # 0.1735808, 0.4099506, 0.1868862
+
+## CSDE uploads/downloads
+
+system("scp data/STI-Test_analysis.rda union:~/stan/data")
+system("scp models/*ts2* union:~/stan/models")
+
+R CMD BATCH --vanilla models/t2.col1.R &
+R CMD BATCH --vanilla models/t2.col2.R &
+R CMD BATCH --vanilla models/t2.col3.R &
+
+R CMD BATCH --vanilla models/f1.col1.R &
+R CMD BATCH --vanilla models/f1.col2.R &
+R CMD BATCH --vanilla models/f1.col3.R &
+
+R CMD BATCH --vanilla models/f2.col1.R &
+R CMD BATCH --vanilla models/f2.col2.R &
+R CMD BATCH --vanilla models/f2.col3.R &
+
+R CMD BATCH --vanilla models/t3.col1.R &
+R CMD BATCH --vanilla models/t3.col2.R &
+R CMD BATCH --vanilla models/t3.col3.R &
+
+R CMD BATCH --vanilla models/ts2.col1.R &
+R CMD BATCH --vanilla models/ts2.col2.R &
 
 # Table 1: descriptive ----------------------------------------------------
 
