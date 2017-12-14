@@ -41,24 +41,26 @@ sd(log(s$m)) # 0.1735808, 0.4099506, 0.1868862
 system("scp data/STI-Test_analysis.rda union:~/stan/data")
 system("scp models/*ts2* union:~/stan/models")
 
-R CMD BATCH --vanilla models/t2.col1.R &
-R CMD BATCH --vanilla models/t2.col2.R &
-R CMD BATCH --vanilla models/t2.col3.R &
+# R CMD BATCH --vanilla models/t2.col1.R &
+# R CMD BATCH --vanilla models/t2.col2.R &
+# R CMD BATCH --vanilla models/t2.col3.R &
+#
+# R CMD BATCH --vanilla models/f1.col1.R &
+# R CMD BATCH --vanilla models/f1.col2.R &
+# R CMD BATCH --vanilla models/f1.col3.R &
+#
+# R CMD BATCH --vanilla models/f2.col1.R &
+# R CMD BATCH --vanilla models/f2.col2.R &
+# R CMD BATCH --vanilla models/f2.col3.R &
+#
+# R CMD BATCH --vanilla models/t3.col1.R &
+# R CMD BATCH --vanilla models/t3.col2.R &
+# R CMD BATCH --vanilla models/t3.col3.R &
+#
+# R CMD BATCH --vanilla models/ts2.col1.R &
+# R CMD BATCH --vanilla models/ts2.col2.R &
 
-R CMD BATCH --vanilla models/f1.col1.R &
-R CMD BATCH --vanilla models/f1.col2.R &
-R CMD BATCH --vanilla models/f1.col3.R &
-
-R CMD BATCH --vanilla models/f2.col1.R &
-R CMD BATCH --vanilla models/f2.col2.R &
-R CMD BATCH --vanilla models/f2.col3.R &
-
-R CMD BATCH --vanilla models/t3.col1.R &
-R CMD BATCH --vanilla models/t3.col2.R &
-R CMD BATCH --vanilla models/t3.col3.R &
-
-R CMD BATCH --vanilla models/ts2.col1.R &
-R CMD BATCH --vanilla models/ts2.col2.R &
+system("scp union:~/stan/data/*.rda data/")
 
 # Table 1: descriptive ----------------------------------------------------
 
@@ -87,11 +89,10 @@ fit <- readRDS("data/t2.fit1.rda")
 print(fit, digits = 3, probs = c(0.025, 0.5, 0.975))
 
 df <- as.data.frame(fit)
+cbind(names(df))
 names(df)[1:24] <- levels(as.factor(dt$city2))
 names(df)[26:32] <- c("black", "hisp", "oth", "age", "agesq", "hiv", "pnum")
 head(df)
-
-exp(df$mu_a - log(2))
 
 qn(df$mu_a - log(2))
 qn(df$Atlanta - log(2))
@@ -173,19 +174,6 @@ qn(df$zOther7 - log(2))
 qn(df$zOther8 - log(2))
 qn(df$zOther9 - log(2))
 
-qn(df$black)
-qn(df$hisp)
-qn(df$oth)
-
-qn(df$age)
-qn(df$agesq, d = 5)
-
-qn(df$hiv)
-
-qn(df$pnum)
-
-qn(df$phi_y)
-
 
 ## Asymptomatic testing ##
 
@@ -215,16 +203,6 @@ qn(df$`San Diego` - log(2))
 qn(df$`San Francisco` - log(2))
 qn(df$Seattle - log(2))
 qn(df$Washington - log(2))
-
-qn(df$zOther1 - log(2))
-qn(df$zOther2 - log(2))
-qn(df$zOther3 - log(2))
-qn(df$zOther4 - log(2))
-qn(df$zOther5 - log(2))
-qn(df$zOther6 - log(2))
-qn(df$zOther7 - log(2))
-qn(df$zOther8 - log(2))
-qn(df$zOther9 - log(2))
 
 qn(df$black)
 qn(df$hisp)
@@ -347,7 +325,7 @@ qn(df$pnum)
 
 ## Asymptomatic Screening ##
 
-fit <- readRDS("data/t4.fit3.rda")
+fit <- readRDS("data/t3.fit3.rda")
 
 print(fit, digits = 3, probs = c(0.025, 0.5, 0.975))
 
@@ -443,7 +421,7 @@ table(dfg$HIV, dfg$city)
 
 pdf(file = "../paper/Fig1.pdf", h = 5, w = 9)
 ggplot(dfg, aes(x = city, y = coef, fill = HIV), alpha = 0.5) +
-  geom_boxplot(outlier.alpha = 0, fatten = 0.9, col = "grey10") +
+  geom_boxplot(outlier.alpha = 0, fatten = 0.7, lwd = 0.4, col = "grey10") +
   scale_y_continuous(limits = c(0, 3.0)) +
   scale_fill_brewer(palette = "Set1") +
   labs(x = "City", y = "Rate") +

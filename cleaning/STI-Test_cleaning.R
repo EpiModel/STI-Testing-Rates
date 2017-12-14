@@ -57,11 +57,21 @@ hist(d$age)
 
 # past year partners
 d <- rename(d, cuml.pnum = M_MP12OANUM2)
-table(d$cuml.pnum)
+table(d$cuml.pnum, useNA = "always")
 sum(table(d$cuml.pnum))
 hist(d$cuml.pnum, breaks = 30)
 summary(d$cuml.pnum)
 
+table(d$M_MP12ANUM2)
+table(d$cuml.pnum, d$M_MP12ANUM2_ONEPART, useNA = "always")
+table(d$cuml.pnum, d$M_MP12ANUM2, useNA = "always")
+
+ai.part <- rep(NA, nrow(d))
+ai.part[which(d$cuml.pnum == 0)] <- 0
+ai.part[which(d$cuml.pnum == 1)] <- as.numeric(d$M_MP12ANUM2_ONEPART[which(d$cuml.pnum == 1)])
+ai.part[which(d$cuml.pnum > 1)] <- d$M_MP12ANUM2[which(d$cuml.pnum > 1)]
+
+table(ai.part, useNA = "always")
 
 ## city
 
