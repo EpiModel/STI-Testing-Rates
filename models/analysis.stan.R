@@ -18,9 +18,6 @@ library(tidyverse)
 # summary fx
 qn <- function(x, d = 3) round(quantile(x, c(0.5, 0.025, 0.975)), d)
 
-# working directory
-setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test/STI-Testing-Rates")
-
 # read original data
 d <- readRDS("data/STI-Test_analysis.rda")
 nrow(d)
@@ -39,7 +36,7 @@ sd(log(s$m)) # 0.1735808, 0.4099506, 0.1868862
 ## CSDE uploads/downloads
 
 system("scp data/STI-Test_analysis.rda union:~/stan/data")
-system("scp models/*ts2* union:~/stan/models")
+system("scp models/*.* union:~/stan/models")
 
 # R CMD BATCH --vanilla models/t2.col1.R &
 # R CMD BATCH --vanilla models/t2.col2.R &
@@ -64,6 +61,16 @@ system("scp union:~/stan/data/*.rda data/")
 
 # Table 1: descriptive ----------------------------------------------------
 
+# read original data
+d <- readRDS("data/STI-Test_analysis.rda")
+nrow(d)
+
+# define the main descriptive data set
+dt <- dplyr::select(d, "sti.trate.all", "race.cat", "age",
+                    "hiv", "cuml.pnum", "city2")
+dt <- dt[complete.cases(dt), ]
+dim(dt)
+
 cbind(table(dt$city2), round(prop.table(table(dt$city2)), 3))
 
 cbind(table(dt$race.cat), round(prop.table(table(dt$race.cat)), 3))
@@ -77,7 +84,6 @@ cbind(table(dt$hiv), round(prop.table(table(dt$hiv)), 3))
 mean(dt$cuml.pnum)
 median(dt$cuml.pnum)
 sd(dt$cuml.pnum)
-
 
 
 # Table 2: main model -----------------------------------------------------
@@ -174,6 +180,18 @@ qn(df$zOther7 - log(2))
 qn(df$zOther8 - log(2))
 qn(df$zOther9 - log(2))
 
+qn(df$black)
+qn(df$hisp)
+qn(df$oth)
+
+qn(df$age)
+qn(df$agesq, d = 4)
+
+qn(df$hiv)
+
+qn(df$pnum)
+
+qn(df$phi_y)
 
 ## Asymptomatic testing ##
 
@@ -203,6 +221,16 @@ qn(df$`San Diego` - log(2))
 qn(df$`San Francisco` - log(2))
 qn(df$Seattle - log(2))
 qn(df$Washington - log(2))
+
+qn(df$zOther1 - log(2))
+qn(df$zOther2 - log(2))
+qn(df$zOther3 - log(2))
+qn(df$zOther4 - log(2))
+qn(df$zOther5 - log(2))
+qn(df$zOther6 - log(2))
+qn(df$zOther7 - log(2))
+qn(df$zOther8 - log(2))
+qn(df$zOther9 - log(2))
 
 qn(df$black)
 qn(df$hisp)
@@ -605,7 +633,7 @@ qn(df$Washington, 2)
 
 fit <- readRDS("data/f1.fit2.rda")
 print(fit, digits = 3, probs = c(0.025, 0.5, 0.975))
-shinystan::launch_shinystan(fit)
+#shinystan::launch_shinystan(fit)
 
 # city-averaged
 df <- as.data.frame(fit, par = c("mu_a", "beta", "mu_theta"))
@@ -668,7 +696,7 @@ qn(df$Washington, 2)
 
 fit <- readRDS("data/f1.fit3.rda")
 print(fit, digits = 3, probs = c(0.025, 0.5, 0.975))
-shinystan::launch_shinystan(fit)
+#shinystan::launch_shinystan(fit)
 
 # city-averaged
 df <- as.data.frame(fit, par = c("mu_a", "beta", "mu_theta"))
@@ -683,8 +711,6 @@ df.int <- as.data.frame(fit, par = "theta")
 head(df.city)
 head(df.hiv)
 head(df.int)
-
-# HIV-
 df <- exp(df.city - log(2))
 names(df) <- levels(as.factor(dt$city2))
 

@@ -1,14 +1,9 @@
 
-library(haven)
 library(tidyverse)
-
-setwd("~/Dropbox/Projects/ETN-001/Products/STI-Test/STI-Testing-Rates")
-rm(list = ls())
 
 ## Read input data
 
-d <- readRDS("../../../Data/Cleaned/ARTNet-clean.rda")
-
+d <- readRDS("../../../Data/Cleaned/ARTNet_STI-clean.rda")
 names(d)
 nrow(d)
 
@@ -72,6 +67,12 @@ ai.part[which(d$cuml.pnum == 1)] <- as.numeric(d$M_MP12ANUM2_ONEPART[which(d$cum
 ai.part[which(d$cuml.pnum > 1)] <- d$M_MP12ANUM2[which(d$cuml.pnum > 1)]
 
 table(ai.part, useNA = "always")
+
+d$M_MP12ANUM2[which(is.na(ai.part))]
+
+table(d$cuml.pnum, ai.part, useNA = "always")
+
+d$ai.part <- ai.part
 
 ## city
 
@@ -206,7 +207,7 @@ d <- rename(d, stitestfreq = STITESTFREQ)
 
 # Output Dataset ----------------------------------------------------------
 
-dt <- select(d, hiv, race.cat, age, cuml.pnum, city2, city, div,
+dt <- select(d, hiv, race.cat, age, cuml.pnum, ai.part, city2, city, div,
             sti.trate.all, sti.trate.symp, sti.trate.asymp,
             sti.never, sti.symp.never, sti.asymp.never,
             stireg, stitestfreq)
