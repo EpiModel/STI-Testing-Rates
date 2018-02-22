@@ -35,7 +35,7 @@ vignettes/*.pdf
 .Rproj.user
 
 # Private data
-data/*
+#data/*
 
 # Mac files
 .DS_Store
