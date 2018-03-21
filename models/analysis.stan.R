@@ -1,10 +1,11 @@
 
 ##
-## Bacterial STI Screening Rates among Men Who Have Sex with Men in the United States:
-##      A Hierarchical Bayesian Analysis
+## Bacterial STI Screening Rates by Symptomatic Status
+##   among Men Who Have Sex with Men in the United States:
+##       A Hierarchical Bayesian Analysis
 ## Primary Data Analysis Script
 ## Author: Samuel M. Jenness
-## Date: December 13, 2017
+## Date: March 21, 2018
 ##
 
 
