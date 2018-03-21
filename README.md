@@ -4,7 +4,7 @@ This repository contains the original data, analysis scripts, and stored MCMC mo
 
 > Jenness SM, Weiss KM, Prasad P, Zlotorzynska M, Sanchez T. Bacterial STI Screening Rates by Symptomatic Status among Men Who Have Sex with Men in the United States: A Hierarchical Bayesian Analysis. Under Review.
 
-<img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig1.pdf">
+<img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig1.png">
 
 ## Abstract
 
@@ -20,7 +20,7 @@ HIV status was most strongly associated with testing rates (Incidence Rate Ratio
 ### Conclusions 	
 Overall, 85–90% of STI tests were due to factors other than symptomatic infection. Because rates were only weakly associated with behavioral risk, this provides evidence of routine, interval-based testing. However, testing rates were sub-optimal compared to CDC recommendations for both HIV- and HIV+ MSM, suggesting additional interventions needed to increase coverage in this population.
 
-<img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig2.pdf">
+<img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig2.png">
 
 ## Code Organization
 
