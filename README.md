@@ -8,17 +8,17 @@ This repository contains the original data, analysis scripts, and stored MCMC mo
 
 ## Abstract
 
-### Background 
-The incidence of bacterial sexually transmitted infections (STIs) like gonorrhea, chlamydia, and syphilis has rapidly increased among men who have sex with men (MSM) in the United States over the past decade despite widely available and highly effective antibiotics. Breaking ongoing transmission chains through treatment, however, requires timely disease detection; this is complicated by asymptomatic infection, common with rectal and pharyngeal exposures. To evaluate CDC recommendations of routine testing every 6–12 months, rate-based estimates of testing by symptomatic status are needed.
+### Background 	
+Bacterial sexually transmitted infection (STI) incidence (gonorrhea, chlamydia, and syphilis) has rapidly increased among men who have sex with men (MSM) in the United States over the past decade despite highly effective antibiotics. Prevention via treatment requires timely disease detection, complicated by asymptomatic infection. We estimated rates screening/testing by symptomatic status.
 
 ### Methods 	
-We conducted a cross-sectional web-based survey of 2572 US MSM aged 15–65 in 2017 measuring the self-reported total number of STI testing events in the past year and events prompted only by disease symptoms. Using negative binomial regression with a hierarchical Bayesian framework, we estimated the yearly rates of asymptomatic and symptomatic testing by behavioral and biological predictors.
+We conducted a cross-sectional web-based study of 2572 US MSM aged 15–65 in 2017–2018 measuring the reported total number of STI tests/screens in the past 2 years versus events prompted by disease symptoms. Using negative binominal regression with a hierarchical Bayesian framework, we estimated yearly rates of asymptomatic screening and symptomatic testing by geographic, demographic, and behavioral predictors.
 
 ### Results 	
-HIV status was most strongly associated with testing rates (Incidence Rate Ratio [IRR]=1.77 for symptomatic tests and 1.88 for asymptomatic tests). HIV- men had 0.14 (95% credible interval [CrI]=0.11, 0.17) symptomatic and 0.83 (95% CrI=0.76, 0.90) asymptomatic tests per year. HIV+ men had 0.24 symptomatic (95% CrI=1.48, 2.13) and 1.58 (95% CrI=1.27, 1.87) asymptomatic tests per year. Rates of asymptomatic testing were higher among black compared to white MSM (IRR=1.32; 95% CrI=1.04, 1.69), but more weakly associated with number of past-year sexual partners (IRR=1.01; 95% CrI=1.00, 1.02).
+Overall, 85–90% of diagnostic events were asymptomatic screens. HIV status was strongly associated with testing/screening frequency (Incidence Rate Ratio [IRR]=1.72; 95% credible interval [Crl] = 1.49, 1.97). HIV-uninfected men had 0.14 (95% CrI = 0.12, 0.17) symptomatic tests and 0.88 (95% CrI = 0.77, 1.01) asymptomatic screens per year. HIV-infected men had 0.25 (95% CrI = 0.18, 0.35) symptomatic tests and 1.53 (95% CrI = 1.24, 1.88) asymptomatic screens per year. Rates of asymptomatic screening were higher among black compared to white MSM (IRR = 1.41; 95% CrI = 1.15, 1.73), and weakly associated with number of past-year sexual partners (IRR = 1.01; 95% CrI = 1.00, 1.01).
 
 ### Conclusions 	
-Overall, 85–90% of STI tests were due to factors other than symptomatic infection. Because rates were only weakly associated with behavioral risk, this provides evidence of routine, interval-based testing. However, testing rates were sub-optimal compared to CDC recommendations for both HIV- and HIV+ MSM, suggesting additional interventions needed to increase coverage in this population.
+Screening rates were suboptimal compared to CDC recommendations by both HIV status and behavioral risk, suggesting targeted interventions needed for disease control.
 
 <img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig2.png">
 
