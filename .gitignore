@@ -39,3 +39,4 @@ vignettes/*.pdf
 
 # Mac files
 .DS_Store
+data/ARTNet_STI-clean.rda
