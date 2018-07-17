@@ -3,9 +3,12 @@ library(tidyverse)
 
 ## Read input data
 
-d <- readRDS("../../../Data/Cleaned/ARTNet_STI-clean.rda")
+d <- readRDS("data/ARTNet_STI-clean.rda")
 names(d)
 nrow(d)
+
+# validate data
+nrow(d) == 2581
 
 
 # 1. Exposure Variables ---------------------------------------------------
