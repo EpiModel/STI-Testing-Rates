@@ -1,0 +1,12 @@
+name: sti-screen
+title: sti-screen
+username:
+account: epimodel
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 374456
+bundleId: 1466593
+url: https://epimodel.shinyapps.io/sti-screen/
+when: 1530813683.08057
+asMultiple: FALSE
+asStatic: FALSE
