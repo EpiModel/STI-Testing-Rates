@@ -36,8 +36,8 @@ sd(log(s$m)) # 0.1735808, 0.4099506, 0.1868862
 
 ## STAN model runs
 
-system("scp data/STI-Test_analysis.rda union:~/stan/data")
-system("scp models/*.* union:~/stan/models")
+# system("scp data/STI-Test_analysis.rda union:~/stan/data")
+# system("scp models/*.* union:~/stan/models")
 
 # R CMD BATCH --vanilla models/t2.col1.R &
 # R CMD BATCH --vanilla models/t2.col2.R &
@@ -58,7 +58,7 @@ system("scp models/*.* union:~/stan/models")
 # R CMD BATCH --vanilla models/ts2.col1.R &
 # R CMD BATCH --vanilla models/ts2.col2.R &
 
-system("scp union:~/stan/data/*.rda data/")
+# system("scp union:~/stan/data/*.rda data/")
 
 
 # Table 1: Descriptive ----------------------------------------------------
@@ -275,56 +275,56 @@ qn(exp(df$pnum), 3)
 
 # Figure 1: HIV*City Predictions ------------------------------------------
 
-## All testing ##
-
-fit <- readRDS("data/f1.fit1.rda")
-
-# city specific
-df.city <- as.data.frame(fit, par = "a")
-df.hiv <- as.data.frame(fit, par = "beta")
-df.int <- as.data.frame(fit, par = "theta")
-
-# HIV-
-df0 <- exp(df.city - log(2))
-names(df0) <- levels(as.factor(dt$city2))
-
-# HIV+
-df1 <- df0
-for (i in 1:ncol(df1)) {
-  df1[, i] <- exp(df.city[, i] - log(2) + df.hiv + df.int[, i])
-}
-names(df1) <- levels(dt$city2)
-
-df0 <- select(df0, -starts_with("z"))
-df1 <- select(df1, -starts_with("z"))
-
-df0$HIV <- "neg"
-df1$HIV <- "pos"
-
-head(df0)
-head(df1)
-
-df <- rbind(df0, df1)
-table(df$HIV)
-
-dfg <- gather(df, key = "city", value = "coef", -HIV)
-head(dfg)
-dfg$city[which(dfg$city == "New York City")] <- "NYC"
-dfg$city[which(dfg$city == "Philadelphia")] <- "Philly"
-dfg$city[which(dfg$city == "San Diego")] <- "SD"
-dfg$city[which(dfg$city == "San Francisco")] <- "SF"
-dfg$city[which(dfg$city == "Los Angeles")] <- "LA"
-
-table(dfg$HIV, dfg$city)
-
-pdf(file = "../paper/Fig1.pdf", h = 5, w = 9)
-ggplot(dfg, aes(x = city, y = coef, fill = HIV), alpha = 0.5) +
-  geom_boxplot(outlier.alpha = 0, fatten = 0.7, lwd = 0.4, col = "grey10") +
-  scale_y_continuous(limits = c(0, 3.0)) +
-  scale_fill_brewer(palette = "Set1") +
-  labs(x = "City", y = "Rate") +
-  theme_bw()
-dev.off()
+# ## All testing (old version, revised to asymptomatic screening only)
+#
+# fit <- readRDS("data/f1.fit1.rda")
+#
+# # city specific
+# df.city <- as.data.frame(fit, par = "a")
+# df.hiv <- as.data.frame(fit, par = "beta")
+# df.int <- as.data.frame(fit, par = "theta")
+#
+# # HIV-
+# df0 <- exp(df.city - log(2))
+# names(df0) <- levels(as.factor(dt$city2))
+#
+# # HIV+
+# df1 <- df0
+# for (i in 1:ncol(df1)) {
+#   df1[, i] <- exp(df.city[, i] - log(2) + df.hiv + df.int[, i])
+# }
+# names(df1) <- levels(dt$city2)
+#
+# df0 <- select(df0, -starts_with("z"))
+# df1 <- select(df1, -starts_with("z"))
+#
+# df0$HIV <- "neg"
+# df1$HIV <- "pos"
+#
+# head(df0)
+# head(df1)
+#
+# df <- rbind(df0, df1)
+# table(df$HIV)
+#
+# dfg <- gather(df, key = "city", value = "coef", -HIV)
+# head(dfg)
+# dfg$city[which(dfg$city == "New York City")] <- "NYC"
+# dfg$city[which(dfg$city == "Philadelphia")] <- "Philly"
+# dfg$city[which(dfg$city == "San Diego")] <- "SD"
+# dfg$city[which(dfg$city == "San Francisco")] <- "SF"
+# dfg$city[which(dfg$city == "Los Angeles")] <- "LA"
+#
+# table(dfg$HIV, dfg$city)
+#
+# pdf(file = "../paper/Fig1.pdf", h = 5, w = 9)
+# ggplot(dfg, aes(x = city, y = coef, fill = HIV), alpha = 0.5) +
+#   geom_boxplot(outlier.alpha = 0, fatten = 0.7, lwd = 0.4, col = "grey10") +
+#   scale_y_continuous(limits = c(0, 3.0)) +
+#   scale_fill_brewer(palette = "Set1") +
+#   labs(x = "City", y = "Rate") +
+#   theme_bw()
+# dev.off()
 
 
 
