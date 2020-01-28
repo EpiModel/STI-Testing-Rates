@@ -2,7 +2,7 @@
 
 This repository contains the original data, analysis scripts, and stored MCMC model data for the following study:
 
-> Jenness SM, Weiss KM, Prasad P, Zlotorzynska M, Sanchez T. Bacterial STI Screening Rates by Symptomatic Status among Men Who Have Sex with Men in the United States: A Hierarchical Bayesian Analysis. In press, _Sexually Transmitted Diseases_.
+> Jenness SM, Weiss KM, Prasad P, Zlotorzynska M, Sanchez T. Bacterial STI Screening Rates by Symptomatic Status among Men Who Have Sex with Men in the United States: A Hierarchical Bayesian Analysis. _Sexually Transmitted Diseases_. 2019; 46(1): 25-30. [[LINK]](https://www.ncbi.nlm.nih.gov/pubmed/30044334) 
 
 <img src="https://github.com/EpiModel/STI-Testing-Rates/raw/master/fig/Fig1.png">
 
