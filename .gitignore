@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+models/.DS_Store
+.DS_Store
+data/ARTNet_STI-clean.rda
+
+# ARTnet data and files built from it
+STI-Test_analysis.rda
